@@ -18,14 +18,14 @@ def dotprod(x, y, xp, yp, n):
     for i in range(1, n + 1):
 
         if i == n:
-            # Esta dando problema aqui quando a reta eh paralela ao y
             x1 = x[0]
             y1 = y[0]
         else:
             x1 = x[i]
             y1 = y[i]
 
-        dprod = (xp - x0)*(y1 - y0) - (yp - y0)*(x1 - x0)
+        dprod = (xp - x0)*(y1 - y0) - (yp - y0)*(x1 - x0)   # Produto interno entre o vetor vertice-ponto e o vetor
+                                                            # normal da reta formada pelos vertices do poligono
 
         if dprod > 0:
             dpos += 1

@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 from Atividade1 import p_inside
 
 # Definindo as entradas do Simulador Monte Carlo
-sim = 1000  # Numero de simulacoes
+sim = 100  # Numero de simulacoes
 quad = 0    # Numero de pontos dentro do quadrado
 pol = 0     # Numero de pontos dentro do poligono
 
@@ -47,17 +47,17 @@ vert_y = (0.3, 0.8, 0.3)
 # vert_x = (0.2, 0.5, 0.8, 0.7)
 # vert_y = (0.1, 0.8, 0.6, 0.3)
 
-d = p_inside.dotprod(vert_x, vert_y, 0.8, 0.6, 3)
-
-print(d)
-
-plt.plot(vert_x, vert_y, 'k--')
-plt.plot(vert_x,vert_y, 'go')
-plt.plot(0.8, 0.6, 'go')
-plt.axis([0, 1, 0, 1])
-plt.grid(True)
-plt.show()
-
+# d = p_inside.dotprod(vert_x, vert_y, 0.6, 0.29, 3)
+#
+# print(d)
+#
+# plt.plot(vert_x, vert_y, 'k--')
+# plt.plot(vert_x, vert_y, 'go')
+# plt.plot(0.6, 0.29, 'go')
+# plt.axis([0, 1, 0, 1])
+# plt.grid(True)
+# plt.show()
+#
 
 # Monte Carlo Simulation
 l_xs = []
@@ -70,3 +70,41 @@ for i in range(sim):
 
     y = uniform(0, 1)
     l_ys.append(y)
+
+
+# Verificacao dos pontos dentro ou nao do poligono
+
+for j in range(sim):
+
+    d = p_inside.dotprod(vert_x, vert_y, l_xs[j], l_ys[j], 3)
+
+    if d:
+        pol += 1
+
+    else:
+        quad += 1
+
+print(f'O numero de pontos dentro do poligono é de: {pol}')
+print(f'O numero de pontos dentro do quadrado é de: {quad}')
+print(f'A area do poligono sera: {pol/quad:.2f}')
+
+
+lista_x = list(vert_x)
+lista_y = list(vert_y)
+lista_x.append(vert_x[0])
+lista_y.append(vert_y[0])
+
+vert_x = tuple(lista_x)
+vert_y = tuple(lista_y)
+
+
+plt.axhline(y=1, color='red', linestyle='--')
+plt.axhline(y=0, color='red', linestyle='--')
+plt.axvline(x=1, color='red', linestyle='--')
+plt.axvline(x=0, color='red', linestyle='--')
+plt.plot(vert_x, vert_y, 'k--')
+plt.plot(vert_x, vert_y, 'go')
+plt.plot(l_xs, l_ys, 'bo')
+plt.axis([-0.5, 1.5, -0.5, 1.5])
+plt.grid(True)
+plt.show()
