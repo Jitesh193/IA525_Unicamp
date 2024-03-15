@@ -1,4 +1,4 @@
-def p_inside(x, y, xp, yp, n):
+def dotprod(x, y, xp, yp, n):
     """"
     Funcao que verifica se o ponto esta dentro ou nao
     x: vertices 'x' do poligono
@@ -8,7 +8,9 @@ def p_inside(x, y, xp, yp, n):
     n: numero de vertices do poligono
     """
 
-    d = 0
+    dpos = 0
+    dneg = 0
+    dentro = False
 
     x0 = x[0]
     y0 = y[0]
@@ -23,15 +25,22 @@ def p_inside(x, y, xp, yp, n):
             x1 = x[i]
             y1 = y[i]
 
-        # equacao da reta - coeficiente angular e linear
-        # m = (y1 - y0)/(x1 - x0)
-        # n = y0 - m * x0
+        dprod = (xp - x0)*(y1 - y0) - (yp - y0)*(x1 - x0)
 
-        if (yp < y0) != (yp < y1) and xp <= x1 + ((yp - y1)/(y1-y0))*(x1-x0):
-
-            d += 1
+        if dprod > 0:
+            dpos += 1
+        elif dprod == 0:
+            dpos += 1
+        else:
+            dneg += 1
 
         x0 = x1
         y0 = y1
 
-    return d % 2 == 1
+    if dpos > 0 and dneg == 0:
+        dentro = True
+    elif dneg > 0:
+        dentro = False
+
+
+    return dentro
