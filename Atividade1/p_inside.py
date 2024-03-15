@@ -24,10 +24,10 @@ def p_inside(x, y, xp, yp, n):
             y1 = y[i]
 
         # equacao da reta - coeficiente angular e linear
-        m = (y1 - y0)/(x1 - x0)
+        # m = (y1 - y0)/(x1 - x0)
         # n = y0 - m * x0
 
-        if (yp < y0) != (yp < y1) and xp < x1 + (yp - y1)/m:
+        if (yp < y0) != (yp < y1) and xp <= x1 + ((yp - y1)/(y1-y0))*(x1-x0):
 
             d += 1
 

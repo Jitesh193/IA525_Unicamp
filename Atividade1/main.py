@@ -40,32 +40,32 @@ pol = 0     # Numero de pontos dentro do poligono
 # print(vert_y)
 
 # Vertices de triangulo
-# vert_x = (0.2, 0.8, 0.2)
-# vert_y = (0.3, 0.3, 0.8)
+vert_x = (0.2, 0.8, 0.2)
+vert_y = (0.3, 0.3, 0.8)
 
 # Vertices de quadrilatero
-vert_x = (0.2, 0.5, 0.8, 0.7)
-vert_y = (0.1, 0.8, 0.6, 0.3)
+# vert_x = (0.2, 0.5, 0.8, 0.7)
+# vert_y = (0.1, 0.8, 0.6, 0.3)
 
 
 # Preciso verificar se tem alguma solucao matricial para isso, sem precisar calcular separadamente
-m0 = (vert_y[1] - vert_y[0])/(vert_x[1] - vert_x[0])
-m1 = (vert_y[2] - vert_y[1])/(vert_x[2] - vert_x[1])
-m2 = (vert_y[3] - vert_y[2])/(vert_x[3] - vert_x[2])
-m3 = (vert_y[0] - vert_y[3])/(vert_x[0] - vert_x[3])
+# m0 = (vert_y[1] - vert_y[0])/(vert_x[1] - vert_x[0])
+# m1 = (vert_y[2] - vert_y[1])/(vert_x[2] - vert_x[1])
+# m2 = (vert_y[3] - vert_y[2])/(vert_x[3] - vert_x[2])
+# m3 = (vert_y[0] - vert_y[3])/(vert_x[0] - vert_x[3])
+#
+# n0 = vert_y[0] - m0 * vert_x[0]
+# n1 = vert_y[1] - m1 * vert_x[1]
+# n2 = vert_y[2] - m2 * vert_x[2]
+# n3 = vert_y[3] - m3 * vert_x[3]
 
-n0 = vert_y[0] - m0 * vert_x[0]
-n1 = vert_y[1] - m1 * vert_x[1]
-n2 = vert_y[2] - m2 * vert_x[2]
-n3 = vert_y[3] - m3 * vert_x[3]
+d = p_inside.p_inside(vert_x, vert_y, 0.442, 0.596, 3)
 
-# d = p_inside.p_inside(vert_x, vert_y, 0.1, 0.5, 3)
-
-# print(d)
+print(d)
 
 plt.plot(vert_x, vert_y, 'k--')
 plt.plot(vert_x,vert_y, 'go')
-plt.plot(0.1, 0.5, 'go')
+plt.plot(0.442, 0.596, 'go')
 plt.axis([0, 1, 0, 1])
 plt.grid(True)
 plt.show()
