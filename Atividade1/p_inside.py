@@ -13,10 +13,15 @@ def p_inside(x, y, xp, yp, n):
     x0 = x[0]
     y0 = y[0]
 
-    for i in range(1, n+1):
+    for i in range(1, n + 1):
 
-        x1 = x[i]
-        y1 = y[i]
+        if i == n:
+            # Esta dando problema aqui quando a reta eh paralela ao y
+            x1 = x[0]
+            y1 = y[0]
+        else:
+            x1 = x[i]
+            y1 = y[i]
 
         # equacao da reta - coeficiente angular e linear
         m = (y1 - y0)/(x1 - x0)
@@ -25,5 +30,8 @@ def p_inside(x, y, xp, yp, n):
         if (yp < y0) != (yp < y1) and xp < x1 + (yp - y1)/m:
 
             d += 1
+
+        x0 = x1
+        y0 = y1
 
     return d % 2 == 1
