@@ -42,5 +42,4 @@ def dotprod(x, y, xp, yp, n):
     elif dneg > 0:
         dentro = False
 
-
     return dentro

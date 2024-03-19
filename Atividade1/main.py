@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 from Atividade1 import p_inside
 
 # Definindo as entradas do Simulador Monte Carlo
-sim = 100  # Numero de simulacoes
+sim = 1000  # Numero de simulacoes
 quad = 0    # Numero de pontos dentro do quadrado
 pol = 0     # Numero de pontos dentro do poligono
 
