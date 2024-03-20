@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 from Atividade1 import p_inside
 
 # Definindo as entradas do Simulador Monte Carlo
-sim = 1000  # Numero de simulacoes
+sim = 100  # Numero de simulacoes
 quad = 0    # Numero de pontos dentro do quadrado
 pol = 0     # Numero de pontos dentro do poligono
 
@@ -40,24 +40,12 @@ pol = 0     # Numero de pontos dentro do poligono
 # print(vert_y)
 
 # Vertices de triangulo
-vert_x = (0.2, 0.2, 0.8)
-vert_y = (0.3, 0.8, 0.3)
+# vert_x = (0.2, 0.2, 0.8)
+# vert_y = (0.3, 0.8, 0.3)
 
 # Vertices de quadrilatero
-# vert_x = (0.2, 0.5, 0.8, 0.7)
-# vert_y = (0.1, 0.8, 0.6, 0.3)
-
-# d = p_inside.dotprod(vert_x, vert_y, 0.6, 0.29, 3)
-#
-# print(d)
-#
-# plt.plot(vert_x, vert_y, 'k--')
-# plt.plot(vert_x, vert_y, 'go')
-# plt.plot(0.6, 0.29, 'go')
-# plt.axis([0, 1, 0, 1])
-# plt.grid(True)
-# plt.show()
-#
+vert_x = (0.2, 0.5, 0.8, 0.7)
+vert_y = (0.1, 0.8, 0.6, 0.3)
 
 # Monte Carlo Simulation
 l_xs = []
@@ -74,19 +62,27 @@ for i in range(sim):
 
 # Verificacao dos pontos dentro ou nao do poligono
 
+pontos_polx = []
+pontos_poly = []
+pontos_quadx = []
+pontos_quady = []
+
 for j in range(sim):
 
     d = p_inside.dotprod(vert_x, vert_y, l_xs[j], l_ys[j], 3)
 
     if d:
         pol += 1
-
+        pontos_polx.append(l_xs[j])
+        pontos_poly.append(l_ys[j])
     else:
         quad += 1
+        pontos_quadx.append(l_xs[j])
+        pontos_quady.append(l_ys[j])
 
 print(f'O numero de pontos dentro do poligono é de: {pol}')
 print(f'O numero de pontos dentro do quadrado é de: {quad}')
-print(f'A area do poligono sera: {pol/quad:.2f}')
+print(f'A area do poligono sera: {pol/quad:.4f}')
 
 
 lista_x = list(vert_x)
@@ -104,7 +100,9 @@ plt.axvline(x=1, color='red', linestyle='--')
 plt.axvline(x=0, color='red', linestyle='--')
 plt.plot(vert_x, vert_y, 'k--')
 plt.plot(vert_x, vert_y, 'go')
-plt.plot(l_xs, l_ys, 'bo')
-plt.axis([-0.5, 1.5, -0.5, 1.5])
+plt.plot(pontos_polx, pontos_poly, 'bo', ms=2, label='Pontos dentro do Poligono')
+plt.plot(pontos_quadx, pontos_quady, 'ro', ms=2, label='Pontos dentro do Quadrado')
+plt.axis([-0.125, 1.125, -0.125, 1.125])
+plt.legend(loc="upper right")
 plt.grid(True)
 plt.show()
