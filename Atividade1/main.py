@@ -69,7 +69,7 @@ pontos_quady = []
 
 for j in range(sim):
 
-    d = p_inside.dotprod(vert_x, vert_y, l_xs[j], l_ys[j], 3)
+    d = p_inside.dotprod(vert_x, vert_y, l_xs[j], l_ys[j], 4)
 
     if d:
         pol += 1
