@@ -59,7 +59,8 @@ def max_lucro(n, l):
 # Teste proposto
 n = 17
 l = [8, 23, 24, 71, 71, 86, 97, 115, 117, 119, 123, 126, 130, 131, 132, 137, 145]
-lucro, corte, k = max_lucro(n,l)
+k=0
+lucro, corte, k = max_lucro_recursivo(n,l,k)
 print(f'Lucro maximo: {lucro}')
 print(f'Cortes: {corte}')
 print(f'Numero de iteracoes: {k}')
