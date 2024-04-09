@@ -1,76 +1,65 @@
-# def max_profit_cutting(n, l):
-#     P = [0] * (n + 1)
-#     for i in range(1, n + 1):
-#         max_profit = float('-inf')
-#         for j in range(1, i + 1):
-#             max_profit = max(max_profit, l[j - 1] + P[i - j])
-#         P[i] = max_profit
-#     return P[n]
-#
-# # Exemplo de uso
-# n = 8
-# l = [1, 5, 8, 9, 10, 17, 17, 20]
-# print("Lucro máximo:", max_profit_cutting(n, l))
-
-
-# def max_profit_cutting_recursive(n, l, k):
-#     if n == 0:
-#         return 0, [], k
+def max_lucro_recursivo(n, l, k):
+    if n == 0:
+        return 0, [], k
     
-#     max_profit = float('-inf')
-#     best_cut = None
+    max_l = float('-inf')
+    max_corte = None
     
-#     for i in range(1, n + 1):
-#         profit, cuts,k = max_profit_cutting_recursive(n - i, l,k)
-#         if l[i - 1] + profit > max_profit:
-#             max_profit = l[i - 1] + profit
-#             best_cut = [i] + cuts
-#         k += 1
-#     return max_profit, best_cut, k 
+    for i in range(1, n + 1):
+        lucro, corte,k = max_lucro_recursivo(n - i, l,k)
+        if l[i - 1] + lucro > max_l:
+            max_l = l[i - 1] + lucro
+            max_corte = [i] + corte
+        k += 1
+    return max_l, max_corte, k 
 
-def max_profit_cutting(n, l):
+
+def max_lucro(n, l):
     # Inicializa uma lista para armazenar o lucro máximo para cada tamanho de barra
-    profits = [0] * (n + 1)
+    lucros = [0] * (n + 1)
     # Inicializa uma lista para armazenar os cortes ótimos para cada tamanho de barra
-    cuts = [[] for _ in range(n + 1)]
+    corte = [[] for _ in range(n + 1)]
     # Inicializa uma variável para contar o número de iterações
-    iterations = 0
+    k = 0
 
     # Para cada tamanho de barra de 1 até n
     for i in range(1, n + 1):
-        max_profit = float('-inf')
-        best_cut = None
+        max_lucro = float('-inf')
+        max_corte = None
         # Tenta todos os cortes possíveis de 1 até i
         for j in range(1, i + 1):
             # Calcula o lucro total como o lucro do corte atual mais o lucro máximo do restante da barra
-            profit = l[j - 1] + profits[i - j]
-            iterations += 1
-            if profit > max_profit:
-                max_profit = profit
-                best_cut = [j] + cuts[i - j]
+            lucro = l[j - 1] + lucros[i - j]
+            k += 1
+            if lucro > max_lucro:
+                max_lucro = lucro
+                max_corte = [j] + corte[i - j]
         # Armazena o lucro máximo e os cortes ótimos para o tamanho atual
-        profits[i] = max_profit
-        cuts[i] = best_cut
+        lucros[i] = max_lucro
+        corte[i] = max_corte
 
-    return profits[n], cuts[n], iterations
+    return lucros[n], corte[n], k
 
 # Exemplo de uso
-n = 4
-l = [4, 8, 13, 15]
-profit, cuts, iterations = max_profit_cutting(n, l)
-print("Lucro máximo:", profit)
-print("Cortes:", cuts)
-print("Número de iterações:", iterations)
-
-
-
-
-# # Exemplo de uso
 # n = 4
 # l = [4, 8, 13, 15]
 # k = 0
-# profit, cuts, k = max_profit_cutting_recursive(n, l, k)
-# print("Lucro máximo:", profit)
-# print("Cortes:", cuts)
-# print(f'Numero de iteracoes: {k}')
+# lucro, corte, k = max_lucro_recursivo(n, l, k)
+# print(f"Lucro máximo com recursao: {lucro}")
+# print(f"Cortes com recursao: {corte}")
+# print(f'Numero de iteracoes com recursao: {k}')
 
+# print('--'*20)
+
+# lucro, cortes, k = max_lucro(n, l)
+# print(f"Lucro máximo sem recursao: {lucro}")
+# print(f"Cortes sem recursao: {cortes}")
+# print("Número de iterações sem recursao:", k)
+
+# Teste proposto
+n = 17
+l = [8, 23, 24, 71, 71, 86, 97, 115, 117, 119, 123, 126, 130, 131, 132, 137, 145]
+lucro, corte, k = max_lucro(n,l)
+print(f'Lucro maximo: {lucro}')
+print(f'Cortes: {corte}')
+print(f'Numero de iteracoes: {k}')
