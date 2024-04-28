@@ -8,14 +8,14 @@ import numpy as np
 # import cvxpy 
 
 
-n = 3
+n = 4
 delta = np.zeros((n,n))
 # Construcao da matriz Delta
 for i in range(n):
     for j in range(n):
         
         if i == j:
-           if (i == j == 1) or (i == j == n):
+           if (i == 0) or (i == n):
               delta[i,j] = 1
            else:
               delta[i,j] = 2
