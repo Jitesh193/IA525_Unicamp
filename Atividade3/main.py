@@ -10,7 +10,8 @@ import numpy as np
 
 n = 4
 delta = np.zeros((n,n))
-# Construcao da matriz Delta
+
+"Construcao da matriz Delta"
 for i in range(n):
     for j in range(n):
         
@@ -25,7 +26,5 @@ for i in range(n):
 
         else:
            delta[i,j] = 0
-
-
 
 print(f'A matriz Delta é: \n {delta}')
