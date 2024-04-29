@@ -48,28 +48,6 @@ ruido = np.random.normal(0,np.sqrt(0.01), num_pontos)
 x_c = sen + ruido
 x_cq = quad + ruido
 
-# "Plot do sinal senoidal"
-# plt.figure(figsize=(10, 6))
-# plt.plot(t, sen, label='Sinal Senoidal')
-# plt.plot(t, x_c, label='Sinal com Ruído Gaussiano')
-# plt.xlabel('Tempo')
-# plt.ylabel('Amplitude')
-# plt.title('Sinal Senoidal com Ruído Gaussiano')
-# plt.legend()
-# plt.grid(True)
-# plt.show()
-
-# "Plot da onda quadrada"
-# plt.figure(figsize=(10, 6))
-# plt.plot(t, quad, label='Sinal Quadrado')
-# plt.plot(t, x_cq, label='Sinal com Ruído Gaussiano')
-# plt.xlabel('Tempo')
-# plt.ylabel('Amplitude')
-# plt.title('Sinal Senoidal com Ruído Gaussiano')
-# plt.legend()
-# plt.grid(True)
-# plt.show()
-
 "Utilizacao da biblioteca 'cvxpy' "
 
 u = cp.Variable(num_pontos)
