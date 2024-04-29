@@ -52,7 +52,7 @@ x_cq = quad + ruido
 
 u = cp.Variable(num_pontos)
 D = np.zeros((num_pontos,num_pontos))
-lmbda = 200
+lmbda = 40000
 
 # Construcao da matriz Delta
 for i in range(num_pontos):
@@ -79,9 +79,11 @@ problem = cp.Problem(obj)
 # Resolucao do problema
 problem.solve()
 
+# print(f'O valor da F.O. para Senoidal L2 é: {problem.value}')
+
 # Plot dos graficos
 fig, axs = plt.subplots(1,3,figsize=(12,6))
-fig.suptitle('Resultado para \u03BB = 200') 
+fig.suptitle(f'Resultado para \u03BB = {lmbda}') 
 axs[0].plot(t,sen)
 axs[0].set_title('Sinal Senoidal')
 axs[0].set_xlabel('Tempo')
@@ -102,7 +104,7 @@ plt.show()
 
 
 # Definicao da F.O. para o Sinal de Onda Quadrada
-lmbda2 = 700
+lmbda2 = 8000
 obj = cp.Minimize(cp.sum_squares(u-x_cq) + lmbda2*cp.sum_squares(D @ u))
 
 # Definicao do problema de otimizacao
@@ -111,9 +113,11 @@ problem = cp.Problem(obj)
 # Resolucao do problema
 problem.solve()
 
+# print(f'O valor da F.O. para Quadrada L2 é: {problem.value}')
+
 # Plot dos graficos
 fig, axs = plt.subplots(1,3,figsize=(12,6))
-fig.suptitle('Resultado para \u03BB = 700')
+fig.suptitle(f'Resultado para \u03BB = {lmbda2}')
 axs[0].plot(t,quad,color='red')
 axs[0].set_title('Sinal de Onda Quadrada')
 axs[0].set_xlabel('Tempo')
@@ -154,9 +158,11 @@ problem2 = cp.Problem(obj2, res)
 # Resolucao do problema
 problem2.solve()
 
+# print(f'O valor da F.O. para Senoidal L1 é: {problem2.value}')
+
 # Plot dos graficos
 fig, axs = plt.subplots(1,3,figsize=(12,6))
-fig.suptitle('Resultado para \u03BB = 50')
+fig.suptitle(f'Resultado para \u03BB = {lmbda3}')
 axs[0].plot(t,sen)
 axs[0].set_title('Sinal Senoidal')
 axs[0].set_xlabel('Tempo')
@@ -179,7 +185,7 @@ plt.show()
 
 u2 = cp.Variable(num_pontos)
 aux = cp.Variable(num_pontos)
-lmbda4 = 70
+lmbda4 = 40
 
 obj2 = cp.Minimize(cp.sum_squares(u2-x_cq) + lmbda4*cp.sum(aux))
 
@@ -196,9 +202,11 @@ problem2 = cp.Problem(obj2, res)
 # Resolucao do problema
 problem2.solve()
 
+# print(f'O valor da F.O. para Quadrada L1 é: {problem2.value}')
+
 # Plot dos graficos
 fig, axs = plt.subplots(1,3,figsize=(12,6))
-fig.suptitle('Resultado para \u03BB = 70')
+fig.suptitle(f'Resultado para \u03BB = {lmbda4}')
 axs[0].plot(t,quad,color='red')
 axs[0].set_title('Sinal de Onda Quadrada')
 axs[0].set_xlabel('Tempo')
