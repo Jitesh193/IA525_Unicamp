@@ -185,7 +185,7 @@ plt.show()
 
 u2 = cp.Variable(num_pontos)
 aux = cp.Variable(num_pontos)
-lmbda4 = 40
+lmbda4 = 500
 
 obj2 = cp.Minimize(cp.sum_squares(u2-x_cq) + lmbda4*cp.sum(aux))
 
