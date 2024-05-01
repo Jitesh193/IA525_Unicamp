@@ -104,7 +104,7 @@ plt.show()
 
 
 # Definicao da F.O. para o Sinal de Onda Quadrada
-lmbda2 = 40000
+lmbda2 = 8000
 obj = cp.Minimize(cp.sum_squares(u-x_cq) + lmbda2*cp.sum_squares(D @ u))
 
 # Definicao do problema de otimizacao
