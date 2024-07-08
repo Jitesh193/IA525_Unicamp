@@ -1,28 +1,32 @@
 clc;
 clear;
-% addpath 'C:\Program Files\Mosek\10.2\toolbox\r2017a'
+
 %%
+% Questao 4 - algoritmo para resolucao do problema de fluxo minimo
+
+% Construcao da matriz de incidencia para o exemplo citado
 A = [1 1 0 0 0 ; 
     -1 0 1 1 0 ; 
     0 -1 -1 0 1 ; 
     0 0 0 -1 -1 ];
 
-nos = size(A,1);
-arestas = size(A,2);
+nos = size(A,1);        % numero de nos
+arestas = size(A,2);    % numero de arestas
 
+% Capacidades minimas e maximas de cada aresta
 cap_min = [2 ; 1 ; 3 ; 1 ; 2];
-% cap_min = [0 ; 0 ; 0 ; 0 ; 0];
 cap_max = [10 ; 10 ; 15 ; 11 ; 9];
-% cap_max = [10 ; 6 ; 0 ; 8 ; 9];
-% cap_max = [1 ; 2 ; 3 ; 1 ; 2];
+
+% Indicacao dos nos que sao a fonte e dreno
 fonte = 1;
 dreno = 4;
 
+% Inicio do CVX
 cvx_begin
     cvx_solver mosek
     variable x(arestas) integer
     variable f integer
-    maximize(f)
+    minimize(f)
     subject to
         % Restrições de fluxo de conservação para todos os nós
         for i = 1:nos
@@ -45,8 +49,9 @@ disp('Os valores de x são:')
 disp(x)
 
 %%
-% Definicao da matriz de incidencia A com os dados fornecidos
-n = 18; % número de nós
+% Questão 5 - alocacao de salas para reunioes
+
+% Indicacao das arestas da rede
 edges = [
     1 2;
     1 4;
@@ -91,21 +96,24 @@ edges = [
     5 16;
     5 12;
     5 8
-];  % arestas
+        ];
 
-A2 = incidenceMatrix(n, edges);  % Matriz de incidencia do problema
+nos2 = 18;      % Numero de nos
 
-nos2 = size(A2,1);
-arestas2 = size(A2,2);
+% Construcao da matriz de incidencia
+A2 = incidenceMatrix(nos2, edges);
 
-% Definicao das capacidades minimas e maximas de cada ramo
+arestas2 = size(A2,2);  % Numero de arestas
+
+% Capacidades minimas e maximas de cada aresta
 cap_min2 = [0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ];
-cap_max2 = [1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 2 ; 2 ; 3 ; 2 ; 6 ; 5 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ];
+cap_max2 = [1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 2 ; 3 ; 2 ; 3 ; 4 ; 3 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ];
 
+% Indicacao dos nos que sao a fonte e dreno
 fonte = 1;
 dreno = 18;
 
-
+% Inicio do mesmo algoritmo CVX utilizado na secao anterior
 cvx_begin
     cvx_solver mosek
     variable x(arestas2) integer
@@ -135,16 +143,17 @@ disp(x)
 % Funcao para a geracao da matriz de incidencia baseada nas arestas da rede
 function A = incidenceMatrix(n, edges)
     % n: número de nós
-    % edges: matriz mx2 onde cada linha representa uma aresta com o nó de origem e de destino
+    % edges: matriz mx2 onde cada linha representa uma aresta e cada coluna
+    %        a origem (coluna 1) e o destino (coluna 2) de cada aresta
     % A: matriz de incidência
 
     m = size(edges, 1); % número de arestas
     A = zeros(n, m); % inicializa a matriz de incidência com zeros
 
     for i = 1:m
-        origin = edges(i, 1);
-        destination = edges(i, 2);
-        A(origin, i) = 1; % nó de origem
-        A(destination, i) = -1; % nó de destino
+        origem = edges(i, 1);
+        destino = edges(i, 2);
+        A(origem, i) = 1; % nó de origem
+        A(destino, i) = -1; % nó de destino
     end
 end
