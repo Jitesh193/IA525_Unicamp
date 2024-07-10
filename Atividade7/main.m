@@ -24,60 +24,96 @@ for i=1:m
     end
 end
 
-
+x = zeros(m,n);
 % Inicializar o CVX
 cvx_begin
     cvx_solver mosek  % Usar o solver MOSEK
-    variable x(m, n) binary % Matriz de inversoes
-%     variable tab_fin(m,n) binary    % Matriz do tabuleiro modificada
+    variable inver(m,n) binary% numero de inversoes
     
     % Função objetivo: minimizar o número de inversões
-    minimize( sum(x(:)) )
+    minimize( sum(sum(inver)) )
     
     % Restrições
     subject to
-%         while sum(tab_fin(:)) <= 20
-            % Construcao das restricoes de inversoes de casas
-            for i=1:m
+        for i=1:m
+
+            if sum(tab_fin(i,:)) < 9
+
                 for j=1:n
-                    if tab_fin(i,j) == 0
-                        x(i,j) == 1;
-                        tab_fin(i,j) = 1;
+                    
+                    if j>=2 && tab_fin(i,j-1) == 0 && tab_fin(i,j) == 0
+                        inver(i,j) ==  1
+                        x(i,j) = 1;
                         if i>1
-                            if tab_fin(i-1,j) == 1
-                                tab_fin(i-1,j) = 0; % peca de cima
-                            else
+                            if tab_fin(i-1,j) == 0
                                 tab_fin(i-1,j) = 1;
-                            end
-    
-                        end
-                        if i<m
-                            if tab_fin(i+1,j) == 1
-                                tab_fin(i+1,j) = 0; % peca de baixo
                             else
+                                tab_fin(i-1,j) = 0;
+                            end
+                        end
+                        if i < m
+                            if tab_fin(i+1,j) == 0
                                 tab_fin(i+1,j) = 1;
+                            else
+                                tab_fin(i+1,j) = 0;
                             end
                         end
                         if j>1
-                            if tab_fin(i,j-1) == 1
-                                tab_fin(i,j-1) = 0; % peca da esquerda
-                            else
+                            if tab_fin(i,j-1) == 0
                                 tab_fin(i,j-1) = 1;
+                            else
+                                tab_fin(i,j-1) = 0;
                             end
                         end
                         if j<n
-                            if tab_fin(i,j+1) == 1
-                                tab_fin(i,j+1) = 0; % peca de cima
-                            else
+                            if tab_fin(i,j+1) == 0
                                 tab_fin(i,j+1) = 1;
+                            else
+                                tab_fin(i,j+1) = 0;
                             end
                         end
-                    else
-                        x(i,j) == 0;
-    %                     tab_fin(i,j) == 0;
+                    elseif i > 1 && tab_fin(i,j) == 0 && tab_fin(i-1,j) == 0
+                        inver(i,j) == 1;
+                        x(i,j) = 1;
+                        
+                        if i>1
+                            if tab_fin(i-1,j) == 0
+                                tab_fin(i-1,j) = 1;
+                            else
+                                tab_fin(i-1,j) = 0;
+                            end
+                        end
+                        if i < m
+                            if tab_fin(i+1,j) == 0
+                                tab_fin(i+1,j) = 1;
+                            else
+                                tab_fin(i+1,j) = 0;
+                            end
+                        end
+                        if j>1
+                            if tab_fin(i,j-1) == 0
+                                tab_fin(i,j-1) = 1;
+                            else
+                                tab_fin(i,j-1) = 0;
+                            end
+                        end
+                        if j<n
+                            if tab_fin(i,j+1) == 0
+                                tab_fin(i,j+1) = 1;
+                            else
+                                tab_fin(i,j+1) = 0;
+                            end
+                        end
+%                     else
+
+
                     end
                 end
             end
+        end
+    
+
+
 %         end
         % Restricao que a soma dos elementos da matriz tab_fin tem que ser
         % a soma m+n
