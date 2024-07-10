@@ -37,8 +37,60 @@ cvx_begin
     % Restrições
     subject to
         % Montagem da matriz complementar M1
-        
-        
+        i=1;
+        j=1;
+        while sum(M1(:)) ~= m*n
+            
+            if (M1(i,j) == 0) && (M1(i-1,j) == 0)
+                
+                x(i,j) == 1;
+                
+                % Inverte o elemento acima
+                if i>1
+                    if M1(i-1,j) == 0
+                        M1(i-1,j) = 1;
+                    else
+                        M1(i-1,j) = 0;
+                    end
+                end
+                % Inverte o elemento abaixo
+                if i<m
+                    if M1(i+1,j) == 0
+                        M1(i+1,j) = 1;
+                    else
+                        M1(i+1,j) = 0;
+                    end
+                end
+                % Inverte o elemento a esquerda
+                if j>1
+                    if M1(i,j-1) == 0
+                        M1(i,j-1) = 1;
+                    else
+                        M1(i,j-1) = 0;
+                    end
+                end
+                % Inverte o elemento a direita
+                if j<n
+                    if M1(i,j+1) == 0
+                        M1(i,j+1) = 1;
+                    else
+                        M1(i,j+1) = 0;
+                    end
+                end
+            end
+            
+            j = j + 1;
+            if j == n
+                i=i+1;
+                j = 1;
+            end
+            if i == m 
+                break;
+            end
+
+
+
+        end
         
 
 
