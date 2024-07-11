@@ -184,4 +184,24 @@ subject to
                     end
                 end
             end
+ end
+
+ %% Questao 3
+
+ % Dica 1 - 7,9,3 e 1 digito correto na posicao certa
+        d1 = dicas(1,:);
+        x(d1(1),1) == 1;
+        x(d1(2),2) == 1;
+        x(d1(3),3) == 1;
+        
+        % Dica 2 - 7,2,5 e 1 digito correto na posicao errada
+        d2 = dicas(2,:);
+        if sum(ismember(d2,d1)) >= 1
+            d21 = ismember(d2,d1);
+            x(d21(1),:) == 0;
         end
+        x(d2(2),2) == 1;
+        x(d2(3),3) == 1;
+
+%         % Dica 3 - 3,1,7 e 2 digitos corretos nas posicoes erradas
+%         d3 = dicas(3,:);
