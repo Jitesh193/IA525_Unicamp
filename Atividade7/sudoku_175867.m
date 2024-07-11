@@ -24,6 +24,10 @@ n = 9;
 cvx_begin
     cvx_solver mosek
     variable X(n, n, n) binary
+
+    % Objetivo (apenas para ajudar o solver a convergir mais rápido)
+    minimize(0)
+
     subject to
     % Restrições de células preenchidas
     for i = 1:n
@@ -65,8 +69,7 @@ cvx_begin
         end
     end
 
-    % Objetivo (apenas para ajudar o solver a convergir mais rápido, pode ser zero)
-    minimize(0)
+    
 cvx_end
 
 % Extrair a solução

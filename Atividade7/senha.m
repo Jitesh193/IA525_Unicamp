@@ -4,14 +4,28 @@ clear;
 %% Jogo da SENHA
 
 % x = zeros(3,9);
+% Matriz de dicas que dão um resultado "ótimo" - resposta 1,5,3
+% dicas = [
+%         7, 9, 3, 1, 0; % 1 dígito correto e no lugar correto
+%         7, 2, 5, 0, 1; % 1 dígito correto mas no lugar errado
+%         3, 1, 7, 0, 2; % 2 dígitos corretos mas no lugar errado
+%         8, 4, 9, 0, 0; % Nada está correto
+%         8, 9, 1, 0, 1  % 1 dígito correto mas no lugar errado
+%     ];
 
+% Matriz de dicas que não são suficientes - resposta 2,0,3
 dicas = [
-        7, 9, 3, 1, 0; % 1 dígito correto e no lugar correto
-        7, 2, 5, 0, 1; % 1 dígito correto mas no lugar errado
-        3, 1, 7, 0, 2; % 2 dígitos corretos mas no lugar errado
-        8, 4, 9, 0, 0; % Nada está correto
-        8, 9, 1, 0, 1  % 1 dígito correto mas no lugar errado
-    ];
+    7, 9, 3, 1, 0; % 1 dígito correto e no lugar correto
+    7, 2, 5, 0, 1  % 1 dígito correto mas no lugar errado
+];
+
+% Matriz de dicas que são conflitantes - resposta infactivel - 0 0 0
+% dicas = [
+%     7, 9, 3, 1, 0; % 1 dígito correto e no lugar correto
+%     7, 2, 5, 0, 1; % 1 dígito correto mas no lugar errado
+%     7, 9, 3, 0, 2  % Conflito: mesma dica, mas resultados diferentes (0, 2)
+% ];
+
 
 cvx_begin
 cvx_solver mosek
@@ -29,7 +43,7 @@ cvx_solver mosek
         end
 
         % Restricoes baseadas nas dicas dadas no exemplo-base
-        for i=1:5
+        for i=1:size(dicas,1)
             dica = dicas(i,1:3);
             pos_correto = dicas(i,4);   % Numero de digitos corretos na pos. correta
             pos_errado = dicas(i,5);    % Numero de digitos corretos na pos. errada
