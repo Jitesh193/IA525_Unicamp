@@ -85,7 +85,7 @@ x = full(x);
 for i=1:10
     for j=1:3
         if(x(i,j)==1)
-            sol(1,j) = i-1;
+            sol(j) = i-1;
         end
     end
 end

@@ -24,76 +24,97 @@ for i=1:m
     end
 end
 
-x = zeros(m,n);
+% x = zeros(m,n);
 
 % Inicializar o CVX
 cvx_begin
     cvx_solver mosek  % Usar o solver MOSEK
-    variable x(m,n) binary  % numero de inversoes
-%     variable M1(m,n) binary
+    variable inver integer  % numero de inversoes
+
     % Função objetivo: minimizar o número de inversões
-    minimize( sum(x(:)) ) 
+    minimize( inver ) 
     
     % Restrições
     subject to
-        % Montagem da matriz complementar M1
-        i=1;
-        j=1;
-        while sum(M1(:)) ~= m*n
-            
-            if (M1(i,j) == 0) && (M1(i-1,j) == 0)
-                
-                x(i,j) == 1;
-                
-                % Inverte o elemento acima
-                if i>1
-                    if M1(i-1,j) == 0
-                        M1(i-1,j) = 1;
-                    else
-                        M1(i-1,j) = 0;
+%         while sum(tab_fin(:)) <= 20
+            % Construcao das restricoes de inversoes de casas
+            for i=1:m
+                for j=1:n
+                    if i == 1
+
+                        if M1(1,1) == 0
+                            x(i,j) == 1;
+                            M1(i,j) = 1;
+
+                            if M1(i+1,j) == 0
+                                M1(i+1,j) = 1;
+                            else
+                                M1(i+1,j) = 0;
+                            end
+
+                        elseif j>1 && M1(i,j) == 0
+                            if M1(i,j-1) == 0 
+                                x(i,j) == 1
+
+                                if M1(i+1,j) == 1
+                                    M1(i+1,j) = 0;
+                                else
+                                    M1(i+1,j) = 1;
+                                end
+                                
+                                if j<n
+                                    if M1(i,j-1) == 1
+                                        M1(i,j-1) = 0;
+                                    else
+                                        M1(i,j-1) = 1;
+                                    end
+                                    if M1(i,j+1) == 1
+                                        M1(i,j+1) = 0;
+                                    else
+                                        M1(i,j+1) = 1;
+                                    end
+%                                 elseif j == n
+%                                     if tab_fin(i,j-1)
+                                end
+                            end
+                        end
                     end
-                end
-                % Inverte o elemento abaixo
-                if i<m
-                    if M1(i+1,j) == 0
-                        M1(i+1,j) = 1;
-                    else
-                        M1(i+1,j) = 0;
+                    if M1(i,j) == 0
+                        if M1(1,1) == 0|| M1(i,j-1) == 0 || M1(i-1,j) == 0
+                            x(i,j) == 1;
+
+                            if i>1
+                                if M1(i-1,j) == 1
+                                    M1(i-1,j) = 0;
+                                else
+                                    M1(i-1,j) =1;
+                                end
+                            end
+                            if i<m
+                                if M1(i+1,j) == 1
+                                    M1(i+1,j) = 0;
+                                else
+                                    M1(i+1,j) =1;
+                                end
+                            end
+                            if j>1
+                                if M1(i,j-1) == 1
+                                    M1(i,j-1) = 0;
+                                else
+                                    M1(i,j-1) =1;
+                                end
+                            end
+                            if j<n
+                                if M1(i,j+1) == 1
+                                    M1(i,j+1) = 0;
+                                else
+                                    M1(i,j+1) =1;
+                                end
+                            end
+                            end
+                        end
+                        end
                     end
-                end
-                % Inverte o elemento a esquerda
-                if j>1
-                    if M1(i,j-1) == 0
-                        M1(i,j-1) = 1;
-                    else
-                        M1(i,j-1) = 0;
-                    end
-                end
-                % Inverte o elemento a direita
-                if j<n
-                    if M1(i,j+1) == 0
-                        M1(i,j+1) = 1;
-                    else
-                        M1(i,j+1) = 0;
-                    end
-                end
-            end
-            
-            j = j + 1;
-            if j == n
-                i=i+1;
-                j = 1;
-            end
-            if i == m 
-                break;
-            end
-
-
-
-        end
-        
-
-
 
     
 cvx_end
